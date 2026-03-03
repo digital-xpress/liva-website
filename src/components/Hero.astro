@@ -34,7 +34,7 @@ const heroImage = '/hero.png';
 
         <!-- Headline -->
         <h1 class="animate-on-scroll text-4xl md:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight mb-6" style="transition-delay: 100ms;">
-          Sueroterapia en Mendoza con&nbsp;<span class="text-primary italic">atención a domicilio</span>
+          Sueroterapia en <span id="city-rotator" class="city-word">Mendoza</span> con&nbsp;<span class="text-primary italic">atención a domicilio</span>
         </h1>
 
         <!-- Subtext -->
@@ -43,7 +43,7 @@ const heroImage = '/hero.png';
         </p>
 
         <!-- CTAs -->
-        <div class="animate-on-scroll flex flex-wrap gap-4" style="transition-delay: 300ms;">
+        <div class="animate-on-scroll flex flex-wrap gap-4" style="transition-delay: 1000ms;">
           <button
             id="hero-cta-primary"
             class="group bg-primary hover:bg-primary-hover text-white px-7 py-4 rounded-xl font-bold text-base lg:text-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2"
@@ -131,6 +131,20 @@ const heroImage = '/hero.png';
   @media (prefers-reduced-motion: reduce) {
     .animate-float { animation: none; }
   }
+
+  .city-word {
+    display: inline-block;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .city-word.exit {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  .city-word.enter {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: none;
+  }
 </style>
 
 <script>
@@ -170,6 +184,39 @@ const heroImage = '/hero.png';
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
+  const CITIES = ['Mendoza', 'Dalvian', 'Chacras', 'San Juan'];
+  let cityIndex = 0;
+  let cityInterval: ReturnType<typeof setInterval> | null = null;
+
+  function initCityRotator() {
+    const span = document.getElementById('city-rotator');
+    if (!span) return;
+
+    if (cityInterval) clearInterval(cityInterval);
+
+    cityInterval = setInterval(() => {
+      span.classList.add('exit');
+
+      setTimeout(() => {
+        cityIndex = (cityIndex + 1) % CITIES.length;
+        span.textContent = CITIES[cityIndex];
+        span.classList.remove('exit');
+        span.classList.add('enter');
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            span.classList.remove('enter');
+          });
+        });
+      }, 300);
+    }, 2600);
+  }
+
   initHero();
-  document.addEventListener('astro:after-swap', initHero);
+  initCityRotator();
+  document.addEventListener('astro:after-swap', () => {
+    initHero();
+    cityIndex = 0;
+    initCityRotator();
+  });
 </script>
