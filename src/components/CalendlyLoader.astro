@@ -1,0 +1,152 @@
+---
+// Overlay de carga branded que aparece mientras Calendly inicializa su popup
+---
+
+<!-- Overlay -->
+<div
+  id="calendly-loader"
+  aria-hidden="true"
+  style="
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    background-color: rgba(247, 247, 247, 0.92);
+  "
+>
+  <!-- Dark mode overlay tint -->
+  <div
+    id="calendly-loader-dark"
+    style="
+      position: absolute;
+      inset: 0;
+      background-color: rgba(25, 26, 24, 0.94);
+      opacity: 0;
+      transition: opacity 0.2s;
+    "
+  ></div>
+
+  <!-- Content -->
+  <div style="position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+    <!-- Animated brand icon -->
+    <div
+      id="calendly-loader-icon"
+      style="
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%;
+        background-color: rgba(95, 108, 90, 0.1);
+        border: 1.5px solid rgba(95, 108, 90, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: loader-spin 3s ease-in-out infinite;
+      "
+    >
+      <span
+        class="material-symbols-outlined"
+        style="font-size: 2.25rem; color: #5f6c5a; font-variation-settings: 'FILL' 0, 'wght' 200;"
+      >fluid_med</span>
+    </div>
+
+    <!-- Dots loader -->
+    <div style="display: flex; gap: 0.4rem; align-items: center;">
+      <span class="cl-dot" style="animation-delay: 0ms;"></span>
+      <span class="cl-dot" style="animation-delay: 180ms;"></span>
+      <span class="cl-dot" style="animation-delay: 360ms;"></span>
+    </div>
+
+    <!-- Text -->
+    <p style="
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #5f6c5a;
+      letter-spacing: 0.02em;
+    ">Preparando tu agenda…</p>
+  </div>
+</div>
+
+<style>
+  .cl-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #5f6c5a;
+    animation: loader-dot-bounce 1.2s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  @keyframes loader-spin {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25%       { transform: rotate(15deg) scale(1.05); }
+    75%       { transform: rotate(-15deg) scale(1.05); }
+  }
+
+  @keyframes loader-dot-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+    40%           { transform: translateY(-7px); opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #calendly-loader-icon { animation: none !important; }
+    .cl-dot { animation: none !important; opacity: 0.6; }
+  }
+</style>
+
+<script>
+  const loader = document.getElementById('calendly-loader') as HTMLDivElement;
+  const loaderDark = document.getElementById('calendly-loader-dark') as HTMLDivElement;
+
+  function showLoader() {
+    const isDark = document.documentElement.classList.contains('dark');
+    loaderDark.style.opacity = isDark ? '1' : '0';
+    loader.style.opacity = '1';
+    loader.style.pointerEvents = 'auto';
+    loader.setAttribute('aria-hidden', 'false');
+  }
+
+  function hideLoader() {
+    loader.style.opacity = '0';
+    loader.style.pointerEvents = 'none';
+    loader.setAttribute('aria-hidden', 'true');
+  }
+
+  window.addEventListener('calendly:open', () => {
+    showLoader();
+  });
+
+  window.addEventListener('message', (e) => {
+    if (e.origin !== 'https://calendly.com') return;
+    try {
+      const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+      const event = data?.event;
+      if (
+        event === 'calendly.profile_page_viewed' ||
+        event === 'calendly.event_type_viewed' ||
+        event === 'calendly.date_and_time_selected'
+      ) {
+        hideLoader();
+      }
+      if (event === 'calendly.popup_closed') {
+        hideLoader();
+      }
+    } catch {}
+  });
+
+  // Fallback: hide after 8s regardless
+  let loaderTimeout: ReturnType<typeof setTimeout>;
+  window.addEventListener('calendly:open', () => {
+    clearTimeout(loaderTimeout);
+    loaderTimeout = setTimeout(hideLoader, 8000);
+  });
+</script>

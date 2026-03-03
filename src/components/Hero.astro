@@ -1,0 +1,173 @@
+---
+const CALENDLY_URL = 'https://calendly.com/liva-wellness';
+
+const heroImage = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDEPInxbjDnp1aYNK27PtlgNRC296rsILGD7JWWGa2ASqDa_BTQRIhl6j0Z3yMMrq6CAGbc1NSjLQOFHs9sOE0u6utLwFd-Zf-cn7Bh4q7P6FQWx2kubuSFkC6dU02KZHMAdqT9MrCCM5cSHPYXkKdyGc5x1KzPZC5eLgrZ1ZRg4PA9WYi5Bd9s-BSvvYCIqqgpf8BkWlfBHT8qCAyTVP3UkPTgc7ROjq_ZMH5B7jSsZTF9dwTDnhJ5E67_f-S8tJfDPfH0w2mtc3pw';
+---
+
+<section class="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-32">
+  <!-- Background decoration -->
+  <div
+    class="absolute inset-0 pointer-events-none"
+    aria-hidden="true"
+  >
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.04] dark:opacity-[0.06]"
+      style="background: radial-gradient(circle, #5f6c5a 0%, transparent 70%); transform: translate(30%, -30%);">
+    </div>
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.03]"
+      style="background: radial-gradient(circle, #5f6c5a 0%, transparent 70%); transform: translate(-30%, 30%);">
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      <!-- Text content -->
+      <div class="z-10 order-2 lg:order-1">
+        <!-- Availability badge -->
+        <div class="animate-on-scroll inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 dark:bg-primary/20 text-primary text-xs font-bold uppercase tracking-wider mb-6">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+          </span>
+          Disponible en Mendoza &amp; Dalvian
+        </div>
+
+        <!-- Headline -->
+        <h1 class="animate-on-scroll text-4xl md:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight mb-6" style="transition-delay: 100ms;">
+          Sueroterapia en Mendoza con&nbsp;<span class="text-primary italic">atención a domicilio</span>
+        </h1>
+
+        <!-- Subtext -->
+        <p class="animate-on-scroll text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-xl" style="transition-delay: 200ms;">
+          Potenciá tu longevidad y rendimiento con tratamientos endovenosos premium en la comodidad de tu hogar. Especialistas en medicina funcional y bienestar integral.
+        </p>
+
+        <!-- CTAs -->
+        <div class="animate-on-scroll flex flex-wrap gap-4" style="transition-delay: 300ms;">
+          <button
+            id="hero-cta-primary"
+            data-calendly={CALENDLY_URL}
+            class="group bg-primary hover:bg-primary-hover text-white px-7 py-4 rounded-xl font-bold text-base lg:text-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2"
+          >
+            Descubrí tu tratamiento
+            <span class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:translate-x-1" style="font-variation-settings: 'FILL' 0, 'wght' 400;">arrow_forward</span>
+          </button>
+
+          <button
+            id="hero-cta-secondary"
+            data-calendly={CALENDLY_URL}
+            class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 px-7 py-4 rounded-xl font-bold text-base lg:text-lg hover:bg-slate-50 dark:hover:bg-surface-dark-2 hover:border-primary dark:hover:border-primary hover:text-primary transition-all duration-300 hover:shadow-md flex items-center gap-2"
+          >
+            <span class="material-symbols-outlined text-xl text-primary transition-transform duration-300 group-hover:scale-110" style="font-variation-settings: 'FILL' 0, 'wght' 300;">calendar_month</span>
+            Agendar turno
+          </button>
+        </div>
+
+        <!-- Trust indicators -->
+        <div class="animate-on-scroll flex flex-wrap items-center gap-6 mt-10 pt-8 border-t border-slate-200 dark:border-slate-800" style="transition-delay: 400ms;">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 400;">verified</span>
+            <span class="text-sm font-medium text-slate-600 dark:text-slate-400">Protocolo médico certificado</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 400;">home_health</span>
+            <span class="text-sm font-medium text-slate-600 dark:text-slate-400">Atención a domicilio</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 400;">schedule</span>
+            <span class="text-sm font-medium text-slate-600 dark:text-slate-400">Disponibilidad inmediata</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero image -->
+      <div class="relative order-1 lg:order-2 animate-on-scroll fade-right" style="transition-delay: 150ms;">
+        <div
+          id="hero-image-wrapper"
+          class="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl bg-slate-200 dark:bg-surface-dark will-change-transform"
+        >
+          <img
+            src={heroImage}
+            alt="Interior moderno y lujoso en Dalvian, Mendoza — ambiente premium para sueroterapia"
+            class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+            loading="eager"
+            decoding="async"
+          />
+          <!-- Subtle overlay for dark mode -->
+          <div class="absolute inset-0 bg-primary/5 dark:bg-primary/10 pointer-events-none"></div>
+        </div>
+
+        <!-- Floating card: Protocolo Medico -->
+        <div class="absolute -bottom-5 -left-5 md:-bottom-6 md:-left-6 bg-white dark:bg-surface-dark p-5 rounded-xl shadow-2xl border border-slate-100 dark:border-slate-700 hidden md:block animate-float">
+          <div class="flex gap-3 items-center">
+            <div class="bg-primary/15 p-3 rounded-full shrink-0">
+              <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1, 'wght' 400;">verified_user</span>
+            </div>
+            <div>
+              <p class="font-bold text-sm text-slate-900 dark:text-slate-100">Protocolo Médico</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Supervisión profesional 100%</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating card: Stats -->
+        <div class="absolute -top-4 -right-4 md:-top-5 md:-right-5 bg-white dark:bg-surface-dark px-4 py-3 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 hidden md:flex flex-col items-center" style="animation: float 5s ease-in-out 1s infinite;">
+          <span class="text-2xl font-black text-primary">500+</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Sesiones realizadas</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-float { animation: none; }
+  }
+</style>
+
+<script>
+  declare const Calendly: {
+    initPopupWidget: (options: { url: string }) => void;
+  };
+
+  function openCalendly(url: string) {
+    window.dispatchEvent(new CustomEvent('calendly:open'));
+    if (typeof Calendly !== 'undefined') {
+      Calendly.initPopupWidget({ url });
+    } else {
+      window.open(url, '_blank');
+    }
+  }
+
+  function initHero() {
+    const primary = document.getElementById('hero-cta-primary') as HTMLButtonElement | null;
+    const secondary = document.getElementById('hero-cta-secondary') as HTMLButtonElement | null;
+
+    const url = primary?.dataset.calendly ?? '';
+    primary?.addEventListener('click', () => openCalendly(url));
+    secondary?.addEventListener('click', () => openCalendly(url));
+
+    // Subtle parallax on scroll
+    const wrapper = document.getElementById('hero-image-wrapper');
+    if (!wrapper || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const onScroll = () => {
+      const scrollY = window.scrollY;
+      const offset = scrollY * 0.08;
+      wrapper.style.transform = `translateY(${offset}px)`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  initHero();
+  document.addEventListener('astro:after-swap', initHero);
+</script>

@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  web:
+    image: ghcr.io/digital-xpress/liva-website:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: liva-web
+    ports:
+      - "3006:80"
+    restart: unless-stopped

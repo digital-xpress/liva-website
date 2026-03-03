@@ -1,0 +1,141 @@
+---
+const CALENDLY_URL = 'https://calendly.com/liva-wellness';
+
+const programs = [
+  {
+    id: 'recovery',
+    badge: 'Best Seller',
+    title: 'Recovery & Detox',
+    description: 'Ideal para recuperación post-estrés, viajes largos o deshidratación profunda. Reponés minerales y electrolitos en minutos.',
+    tags: ['Hidratación profunda', 'Vitaminas B', 'Electrolitos'],
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAggRDu_wFbuRRppBDpj0hT8WiE0so2SIojl4_5FsdDXI3DMqxcE1ZTkNWWSBzL0ITmBKIpydgxQt0vKNINwbKzM4P8iUWxpHugiL92wUj6wxe1z9lhDbW4vFLejiJZPwY4icKECWMtjfLR8NUb1k2ZYfzSl43F88NHxACVF7gGxrUz100STqTBuRA8vtG1RdhxsLnfZ2akN3LQCf0_ghrc9e6v4DLRvvoSv2JRLz924ZwCb9nAib4K2c9J6dFIId4qS-z7KddRTUEd',
+    duration: '60 min',
+  },
+  {
+    id: 'longevity',
+    badge: null,
+    title: 'Longevity Protocol',
+    description: 'Antioxidantes maestros para frenar el envejecimiento celular y mejorar la piel. Sentite más joven desde adentro.',
+    tags: ['Glutatión', 'Vitamina C', 'Antioxidantes'],
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAlKxfcSL1Y_7tSKjE5pOMX9WsHEIwlIiZkZ0SFH7bgOFtpGocrX74fhXCVjs_tcEUJnxIER6phTx9u8LxHAUl5iUvjJ_r9xZ8VqvrmQ4_YN-CxC-K_fUJZUKaEGaWm0DfvWLHrfVVrkB-9urFYoCdWY4NxmXOEOH0T_IhMKwXZQEOFiYWzGDx289dr61PJPMjHCjOgC49HHhqRVC7FDijW3SjyVhqvX-u1olS_PzoVt8HWycwZUjtnFdjKcgHPm-yiMFw_IvwhsFJG',
+    duration: '75 min',
+  },
+  {
+    id: 'dynamo',
+    badge: null,
+    title: 'Dynamo Performance',
+    description: 'Potenciador de energía y enfoque cognitivo para alto rendimiento físico y mental. Ideal para atletas y ejecutivos.',
+    tags: ['Aminoácidos', 'Complejo B12', 'NAD+'],
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD6sdVIq2Ij6BKKLKuRrMz97M5yuOqKpXblK4wZVx_ISN2r72G-eoCT5GzCCe3njuOCQwCz1983mhu_hOQhXWBIyBEIi7ubWlF5ML781TbekJT_IYaWMsKTCwjEItfvnyuj2UAf9fygEfExxoQ0cav6kBAfxaCgJz3VW3d3g2S1a_qT6XdcbLqdzFt3hri9V3mLqpo5yxcJUDT41u3-rMm8CBRSeRcBWKkIkDAtdtdrywLFG5u48Omdj8XGSZMAR6bdrXtSHeKSo6cO',
+    duration: '90 min',
+  },
+];
+---
+
+<section class="py-20 lg:py-28" id="programas">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Header -->
+    <div class="animate-on-scroll flex flex-col md:flex-row md:items-end justify-between mb-12 lg:mb-16 gap-6">
+      <div>
+        <span class="inline-block text-primary font-bold tracking-widest uppercase text-xs mb-4">Tratamientos</span>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">
+          Nuestros Programas Wellness
+        </h2>
+        <p class="text-slate-600 dark:text-slate-400 max-w-2xl">
+          Diseñados para maximizar tu potencial biológico a través de nutrientes de alta biodisponibilidad.
+        </p>
+      </div>
+      <a
+        href="#como-funciona"
+        class="group shrink-0 text-primary font-bold flex items-center gap-1.5 hover:underline underline-offset-4 transition-all duration-200"
+      >
+        Ver todos los protocolos
+        <span class="material-symbols-outlined text-sm transition-transform duration-300 group-hover:translate-x-1">open_in_new</span>
+      </a>
+    </div>
+
+    <!-- Cards -->
+    <div class="stagger-group grid md:grid-cols-3 gap-8 lg:gap-10">
+      {programs.map((program) => (
+        <article class="stagger-item group cursor-pointer">
+          <!-- Image -->
+          <div class="relative aspect-video rounded-xl overflow-hidden mb-6 bg-slate-200 dark:bg-surface-dark shadow-md hover:shadow-xl transition-shadow duration-500">
+            <img
+              src={program.image}
+              alt={program.title}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              loading="lazy"
+              decoding="async"
+            />
+            <!-- Gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+
+            {program.badge && (
+              <div class="absolute top-4 left-4 bg-white/90 dark:bg-surface-dark/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary uppercase tracking-wide border border-primary/20">
+                {program.badge}
+              </div>
+            )}
+
+            <!-- Duration badge -->
+            <div class="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-white flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <span class="material-symbols-outlined text-xs" style="font-size: 14px; font-variation-settings: 'FILL' 0, 'wght' 300;">schedule</span>
+              {program.duration}
+            </div>
+          </div>
+
+          <!-- Content -->
+          <h3 class="text-2xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">
+            {program.title}
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 mb-4 text-sm leading-relaxed">
+            {program.description}
+          </p>
+
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2 mb-5">
+            {program.tags.map((tag) => (
+              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-primary/8 dark:bg-primary/15 text-primary border border-primary/15">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <!-- Link -->
+          <button
+            data-program={program.id}
+            data-calendly={CALENDLY_URL}
+            class="program-reservar-btn group/link flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all duration-300"
+          >
+            Reservar este tratamiento
+            <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover/link:translate-x-1">trending_flat</span>
+          </button>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  declare const Calendly: {
+    initPopupWidget: (options: { url: string }) => void;
+  };
+
+  function initPrograms() {
+    document.querySelectorAll<HTMLButtonElement>('.program-reservar-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const url = btn.dataset.calendly ?? '';
+        window.dispatchEvent(new CustomEvent('calendly:open'));
+        if (typeof Calendly !== 'undefined') {
+          Calendly.initPopupWidget({ url });
+        } else {
+          window.open(url, '_blank');
+        }
+      });
+    });
+  }
+
+  initPrograms();
+  document.addEventListener('astro:after-swap', initPrograms);
+</script>

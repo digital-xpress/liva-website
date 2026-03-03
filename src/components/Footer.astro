@@ -1,0 +1,144 @@
+---
+const currentYear = new Date().getFullYear();
+
+const quickLinks = [
+  { href: '#programas', label: 'Tratamientos' },
+  { href: '#como-funciona', label: 'Cómo funciona' },
+  { href: '#seguridad', label: 'Seguridad' },
+  { href: '#mendoza', label: 'Mendoza & Dalvian' },
+];
+
+const CALENDLY_URL = 'https://calendly.com/liva-wellness';
+const WHATSAPP_NUMBER = '5492610000000';
+const WHATSAPP_MSG = encodeURIComponent('Hola LIVA! Estaba viendo su página web y me gustaría tener información sobre los tratamientos.');
+---
+
+<footer class="bg-slate-50 dark:bg-background-dark py-16 border-t border-slate-200 dark:border-slate-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-14">
+
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <a href="/" class="flex items-center gap-2 mb-6 group w-fit">
+          <span
+            class="material-symbols-outlined text-primary text-3xl transition-transform duration-300 group-hover:scale-110"
+            style="font-variation-settings: 'FILL' 0, 'wght' 300;"
+          >fluid_med</span>
+          <span class="text-xl font-bold tracking-tight text-primary">LIVA</span>
+        </a>
+        <p class="text-slate-600 dark:text-slate-400 max-w-sm mb-8 leading-relaxed text-sm">
+          Liderando la medicina funcional y sueroterapia en el oeste argentino. Calidad médica y atención personalizada en la puerta de tu casa.
+        </p>
+
+        <!-- CTA buttons -->
+        <div class="flex flex-wrap gap-3">
+          <button
+            id="footer-calendly-btn"
+            data-calendly={CALENDLY_URL}
+            class="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm hover:shadow-md"
+          >
+            <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 0, 'wght' 400;">calendar_month</span>
+            Reservar turno
+          </button>
+
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MSG}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark hover:border-[#25D366] hover:text-[#25D366] px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 hover:scale-105 active:scale-95 text-slate-700 dark:text-slate-300"
+          >
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 448 512" aria-hidden="true">
+              <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.4-8.6-44.6-27.6-16.5-14.7-27.6-32.8-30.8-38.4-3.2-5.6-.3-8.6 2.5-11.4 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.3 3.7-5.6 5.6-9.2 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+            </svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div>
+        <h5 class="font-bold mb-6 text-slate-900 dark:text-slate-100">Links Rápidos</h5>
+        <ul class="space-y-3">
+          {quickLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm transition-all duration-200"
+              >
+                <span class="w-0 group-hover:w-3 overflow-hidden transition-all duration-300">
+                  <span class="material-symbols-outlined text-xs" style="font-size: 12px;">arrow_forward</span>
+                </span>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h5 class="font-bold mb-6 text-slate-900 dark:text-slate-100">Contacto</h5>
+        <ul class="space-y-4">
+          <li>
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MSG}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-start gap-2.5 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm transition-colors duration-200 group"
+            >
+              <span class="material-symbols-outlined text-primary text-base mt-0.5 shrink-0" style="font-size: 18px; font-variation-settings: 'FILL' 1, 'wght' 400;">phone</span>
+              <span>+54 261 000 0000</span>
+            </a>
+          </li>
+          <li>
+            <div class="flex items-start gap-2.5 text-slate-600 dark:text-slate-400 text-sm">
+              <span class="material-symbols-outlined text-primary text-base mt-0.5 shrink-0" style="font-size: 18px; font-variation-settings: 'FILL' 1, 'wght' 400;">location_on</span>
+              <span>Mendoza, Argentina<br/><span class="text-xs text-slate-400 dark:text-slate-500">Dalvian · Chacras · Gran Mendoza</span></span>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-start gap-2.5 text-slate-600 dark:text-slate-400 text-sm">
+              <span class="material-symbols-outlined text-primary text-base mt-0.5 shrink-0" style="font-size: 18px; font-variation-settings: 'FILL' 1, 'wght' 400;">schedule</span>
+              <span>Lun–Dom, 8:00–21:00</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Divider + bottom row -->
+    <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-500">
+      <p>© {currentYear} LIVA Wellness Group. Todos los derechos reservados.</p>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-primary transition-colors duration-200">Política de privacidad</a>
+        <span class="text-slate-300 dark:text-slate-700">·</span>
+        <a href="#" class="hover:text-primary transition-colors duration-200">Términos de uso</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  declare const Calendly: {
+    initPopupWidget: (options: { url: string }) => void;
+  };
+
+  function initFooter() {
+    const btn = document.getElementById('footer-calendly-btn') as HTMLButtonElement | null;
+    btn?.addEventListener('click', () => {
+      const url = btn.dataset.calendly ?? '';
+      window.dispatchEvent(new CustomEvent('calendly:open'));
+      if (typeof Calendly !== 'undefined') {
+        Calendly.initPopupWidget({ url });
+      } else {
+        window.open(url, '_blank');
+      }
+    });
+  }
+
+  initFooter();
+  document.addEventListener('astro:after-swap', initFooter);
+</script>

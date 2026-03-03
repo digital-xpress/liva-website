@@ -1,0 +1,96 @@
+---
+const safetyImage = 'https://lh3.googleusercontent.com/aida-public/AB6AXuA0beEbb3KeFhfxFZZYpny6RQR6yxm7VrDXfv2O6QPuXhD55bLmJY_xO8zCWNt9mGbP8hJUsv-AMTiaPGnbHOt_JQglUtt3KGxwwd1hlx2B2pP3963yKqst-gX7QX0p8RCrmlHAI4ESAv4uS4IpI2cxfyf5zeB9GKB4tj7qyumvohEElft12f1eUmGF5RWCFelCUvzNqx6U56Bn9koZmqRl89UnmECkSmHzdbfbLAuZ9SVDabEz8oJf0iPyJsvJw73AG';
+
+const checklist = [
+  {
+    icon: 'medical_information',
+    title: 'Evaluación Médica Previa',
+    description: 'Análisis detallado de tu historial clínico antes de cualquier tratamiento. Sin excepciones.',
+  },
+  {
+    icon: 'science',
+    title: 'Protocolos Certificados',
+    description: 'Insumos de grado farmacéutico y técnicas estériles rigurosas bajo normativa ANMAT.',
+  },
+  {
+    icon: 'support_agent',
+    title: 'Supervisión Profesional',
+    description: 'Enfermeros y médicos especializados te acompañan en todo momento durante la sesión.',
+  },
+  {
+    icon: 'emergency',
+    title: 'Respuesta de Emergencia',
+    description: 'Protocolo de contingencia activo durante cada sesión para tu tranquilidad absoluta.',
+  },
+];
+---
+
+<section class="py-20 lg:py-28 bg-primary" id="seguridad">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      <!-- Text content -->
+      <div class="animate-on-scroll fade-left order-2 lg:order-1">
+        <span class="inline-block text-white/60 font-bold tracking-widest uppercase text-xs mb-4">Seguridad</span>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white">
+          Tu seguridad es nuestra prioridad absoluta
+        </h2>
+        <p class="text-white/75 text-lg mb-12 leading-relaxed">
+          En LIVA seguimos los más estrictos protocolos médicos internacionales para asegurar una experiencia de bienestar segura y efectiva.
+        </p>
+
+        <!-- Checklist -->
+        <div class="space-y-6">
+          {checklist.map((item, i) => (
+            <div
+              class="flex gap-4 items-start group stagger-item"
+              style={`transition-delay: ${i * 100}ms;`}
+            >
+              <div class="shrink-0 bg-white/15 group-hover:bg-white/25 p-2.5 rounded-full transition-colors duration-300 mt-0.5">
+                <span
+                  class="material-symbols-outlined text-white text-xl"
+                  style="font-variation-settings: 'FILL' 1, 'wght' 400;"
+                >{item.icon}</span>
+              </div>
+              <div>
+                <h4 class="text-white text-lg font-bold mb-1">{item.title}</h4>
+                <p class="text-white/65 text-sm leading-relaxed">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="relative animate-on-scroll fade-right order-1 lg:order-2">
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/5] lg:aspect-auto lg:h-[580px]">
+          <img
+            src={safetyImage}
+            alt="Profesional médico con equipamiento de alta calidad en ambiente estéril"
+            class="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+          <!-- Subtle color overlay -->
+          <div class="absolute inset-0 bg-primary/20 mix-blend-multiply pointer-events-none"></div>
+          <!-- Gradient bottom -->
+          <div class="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-primary/60 to-transparent pointer-events-none"></div>
+        </div>
+
+        <!-- Floating stat card -->
+        <div class="absolute -bottom-5 -left-5 md:-bottom-6 md:-left-6 bg-white p-5 rounded-xl shadow-2xl hidden md:flex items-center gap-4">
+          <div class="text-center">
+            <div class="text-3xl font-black text-primary">100%</div>
+            <div class="text-xs text-slate-500 font-medium mt-0.5">Supervisión médica</div>
+          </div>
+          <div class="w-px h-12 bg-slate-200"></div>
+          <div class="text-center">
+            <div class="text-3xl font-black text-primary">0</div>
+            <div class="text-xs text-slate-500 font-medium mt-0.5">Incidentes registrados</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
