@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useState, useEffect, useCallback } from 'preact/hooks';
+import { useState, useEffect, useCallback, useRef } from 'preact/hooks';
 import type { WizardState, Recommendation } from './types';
 import { INITIAL_STATE, TOTAL_STEPS } from './types';
 import { computeRecommendation, hasSafetyFlags } from './engine';
@@ -40,6 +40,7 @@ export function Wizard() {
   const [state, setState] = useState<WizardState>(INITIAL_STATE);
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState<'forward' | 'back'>('forward');
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Load persisted state on mount
   useEffect(() => {
@@ -99,6 +100,13 @@ export function Wizard() {
     }
   };
 
+  const scrollToTop = () => {
+    const behavior: ScrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'auto'
+      : 'smooth';
+    contentRef.current?.scrollTo({ top: 0, behavior });
+  };
+
   const goNext = () => {
     if (!canAdvance()) return;
     if (state.step >= TOTAL_STEPS) return;
@@ -108,6 +116,7 @@ export function Wizard() {
     setTimeout(() => {
       patch({ step: state.step + 1 });
       setAnimating(false);
+      scrollToTop();
       window.dispatchEvent(new CustomEvent(`wizard_step_view_${state.step + 1}`));
     }, 180);
   };
@@ -115,6 +124,7 @@ export function Wizard() {
   const goBack = () => {
     if (state.showResults) {
       patch({ showResults: false });
+      scrollToTop();
       return;
     }
     if (state.step <= 1) {
@@ -126,6 +136,7 @@ export function Wizard() {
     setTimeout(() => {
       patch({ step: state.step - 1 });
       setAnimating(false);
+      scrollToTop();
     }, 180);
   };
 
@@ -220,6 +231,7 @@ export function Wizard() {
 
         {/* Step content */}
         <div
+          ref={contentRef}
           class={[
             'flex-1 overflow-y-auto px-5 py-6 transition-all duration-200',
             animClass,

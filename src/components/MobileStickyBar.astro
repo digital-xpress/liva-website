@@ -58,7 +58,7 @@ const CALENDLY_URL = 'https://calendly.com/aledovidioatan-oywu/30min';
     overflow: hidden;
   }
 
-  /* Rotating conic-gradient that creates the beam */
+  /* Rotating conic-gradient that creates the beam — dorado en light mode */
   .wizard-beam-wrap::before {
     content: '';
     position: absolute;
@@ -69,11 +69,23 @@ const CALENDLY_URL = 'https://calendly.com/aledovidioatan-oywu/30min';
       from 0deg,
       transparent 0%,
       transparent 60%,
+      rgba(255, 195, 80, 0.95) 72%,
+      rgba(255, 195, 80, 0.4)  80%,
+      transparent 90%
+    );
+    animation: beam-rotate 2.2s linear infinite;
+  }
+
+  /* Blanco en dark mode */
+  :global(.dark) .wizard-beam-wrap::before {
+    background: conic-gradient(
+      from 0deg,
+      transparent 0%,
+      transparent 60%,
       rgba(255, 255, 255, 0.95) 72%,
       rgba(255, 255, 255, 0.4)  80%,
       transparent 90%
     );
-    animation: beam-rotate 2.2s linear infinite;
   }
 
   /* Button sits above the beam */

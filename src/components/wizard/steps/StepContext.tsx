@@ -1,4 +1,5 @@
 import { h } from 'preact';
+import { useEffect, useRef } from 'preact/hooks';
 import type { WizardState, Preference, Intensity } from '../types';
 
 interface Props {
@@ -19,6 +20,14 @@ const TOGGLES: ToggleItem[] = [
   { key: 'recovery_context', icon: 'medical_services', label: 'Estás en recuperación (lesión / post-procedimiento)' },
 ];
 
+function smoothBehavior(): ScrollBehavior {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
+
+function anyToggleActive(state: WizardState): boolean {
+  return state.train_3plus || state.sleep_issue || state.stress_high || state.recovery_context;
+}
+
 export function StepContext({ state, onChange }: Props) {
   const { train_3plus, sleep_issue, stress_high, recovery_context, preference, intensity } = state;
 
@@ -28,6 +37,39 @@ export function StepContext({ state, onChange }: Props) {
     stress_high,
     recovery_context,
   };
+
+  const togglesActive = anyToggleActive(state);
+
+  const preferenceRef = useRef<HTMLElement>(null);
+  const intensityRef = useRef<HTMLElement>(null);
+  const prevTogglesActive = useRef(togglesActive);
+  const prevPreference = useRef<Preference | null>(preference);
+
+  // Reveal "¿Qué buscás hoy?" when first toggle is activated
+  useEffect(() => {
+    const justActivated = togglesActive && !prevTogglesActive.current;
+    if (justActivated && preferenceRef.current) {
+      const t = setTimeout(
+        () => preferenceRef.current?.scrollIntoView({ behavior: smoothBehavior(), block: 'start' }),
+        200
+      );
+      return () => clearTimeout(t);
+    }
+    prevTogglesActive.current = togglesActive;
+  }, [togglesActive]);
+
+  // Reveal "¿Qué estilo preferís?" when preference is first selected
+  useEffect(() => {
+    const prefJustSelected = preference && !prevPreference.current;
+    if (prefJustSelected && intensityRef.current) {
+      const t = setTimeout(
+        () => intensityRef.current?.scrollIntoView({ behavior: smoothBehavior(), block: 'start' }),
+        200
+      );
+      return () => clearTimeout(t);
+    }
+    prevPreference.current = preference;
+  }, [preference]);
 
   return (
     <div class="space-y-10">
@@ -52,50 +94,54 @@ export function StepContext({ state, onChange }: Props) {
         </div>
       </section>
 
-      {/* Tipo de sesión */}
-      <section class="border-t border-primary/10 pt-8">
-        <p class="text-slate-900 dark:text-slate-100 text-sm font-bold uppercase tracking-wider mb-4">
-          ¿Qué buscás hoy?
-        </p>
-        <div class="grid grid-cols-2 gap-4">
-          <PreferenceCard
-            icon="event_repeat"
-            label="Sesión puntual"
-            selected={preference === 'single'}
-            onClick={() => onChange({ preference: 'single' })}
-          />
-          <PreferenceCard
-            icon="calendar_month"
-            label="Programa (4–8 semanas)"
-            selected={preference === 'program'}
-            onClick={() => onChange({ preference: 'program' })}
-          />
-        </div>
-      </section>
+      {/* Tipo de sesión — aparece al activar el primer toggle */}
+      {togglesActive && (
+        <section ref={preferenceRef} class="border-t border-primary/10 pt-8">
+          <p class="text-slate-900 dark:text-slate-100 text-sm font-bold uppercase tracking-wider mb-4">
+            ¿Qué buscás hoy?
+          </p>
+          <div class="grid grid-cols-2 gap-4">
+            <PreferenceCard
+              icon="event_repeat"
+              label="Sesión puntual"
+              selected={preference === 'single'}
+              onClick={() => onChange({ preference: 'single' })}
+            />
+            <PreferenceCard
+              icon="calendar_month"
+              label="Programa (4–8 semanas)"
+              selected={preference === 'program'}
+              onClick={() => onChange({ preference: 'program' })}
+            />
+          </div>
+        </section>
+      )}
 
-      {/* Intensidad */}
-      <section class="border-t border-primary/10 pt-8">
-        <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-5">
-          ¿Qué estilo preferís?
-        </h2>
-        <div class="space-y-3">
-          <IntensityOption
-            selected={intensity === 'soft'}
-            onClick={() => onChange({ intensity: 'soft' })}
-            label="Suave / progresivo"
-            sub="Ideal para construir base o mantenimiento."
-          />
-          <IntensityOption
-            selected={intensity === 'intensive'}
-            onClick={() => onChange({ intensity: 'intensive' })}
-            label="Intensivo / resultados más rápidos"
-            sub="Mayor exigencia para objetivos a corto plazo."
-          />
-        </div>
-        <p class="text-xs text-slate-400 dark:text-slate-500 mt-3 italic">
-          Esto no reemplaza la evaluación previa.
-        </p>
-      </section>
+      {/* Intensidad — aparece al elegir preferencia */}
+      {preference && (
+        <section ref={intensityRef} class="border-t border-primary/10 pt-8">
+          <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-5">
+            ¿Qué estilo preferís?
+          </h2>
+          <div class="space-y-3">
+            <IntensityOption
+              selected={intensity === 'soft'}
+              onClick={() => onChange({ intensity: 'soft' })}
+              label="Suave / progresivo"
+              sub="Ideal para construir base o mantenimiento."
+            />
+            <IntensityOption
+              selected={intensity === 'intensive'}
+              onClick={() => onChange({ intensity: 'intensive' })}
+              label="Intensivo / resultados más rápidos"
+              sub="Mayor exigencia para objetivos a corto plazo."
+            />
+          </div>
+          <p class="text-xs text-slate-400 dark:text-slate-500 mt-3 italic">
+            Esto no reemplaza la evaluación previa.
+          </p>
+        </section>
+      )}
     </div>
   );
 }

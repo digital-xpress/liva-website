@@ -1,4 +1,5 @@
 import { h } from 'preact';
+import { useEffect, useRef } from 'preact/hooks';
 import type { WizardState, City, Mode, Zone } from '../types';
 
 interface Props {
@@ -11,8 +12,43 @@ const MENDOZA_IMG =
 const SANJUAN_IMG =
   'https://images.unsplash.com/photo-1512813195386-6cf811ad3542?w=600&q=80&fit=crop';
 
+function smoothBehavior(): ScrollBehavior {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
+
 export function StepLocation({ state, onChange }: Props) {
   const { city, mode, zone } = state;
+
+  const modalidadRef = useRef<HTMLElement>(null);
+  const zoneRef = useRef<HTMLDivElement>(null);
+  const prevCity = useRef<City | null>(city);
+  const prevMode = useRef<Mode | null>(mode);
+
+  // Scroll to modalidad section when city is first selected
+  useEffect(() => {
+    const cityJustSelected = city && !prevCity.current;
+    if (cityJustSelected && modalidadRef.current) {
+      const t = setTimeout(
+        () => modalidadRef.current?.scrollIntoView({ behavior: smoothBehavior(), block: 'start' }),
+        200
+      );
+      return () => clearTimeout(t);
+    }
+    prevCity.current = city;
+  }, [city]);
+
+  // Scroll to zone sub-options when home is selected for Mendoza
+  useEffect(() => {
+    const modeJustSetHome = mode === 'home' && prevMode.current !== 'home' && city === 'mendoza';
+    if (modeJustSetHome && zoneRef.current) {
+      const t = setTimeout(
+        () => zoneRef.current?.scrollIntoView({ behavior: smoothBehavior(), block: 'nearest' }),
+        200
+      );
+      return () => clearTimeout(t);
+    }
+    prevMode.current = mode;
+  }, [mode, city]);
 
   const selectCity = (c: City) => {
     const patch: Partial<WizardState> = { city: c };
@@ -58,7 +94,7 @@ export function StepLocation({ state, onChange }: Props) {
 
       {/* Modalidad */}
       {city && (
-        <section class="border-t border-primary/10 pt-8">
+        <section ref={modalidadRef} class="border-t border-primary/10 pt-8">
           <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">
             ¿Cómo preferís la atención?
           </h2>
@@ -77,7 +113,7 @@ export function StepLocation({ state, onChange }: Props) {
 
             {/* Sub-opciones Dalvian solo para Mendoza + domicilio */}
             {mode === 'home' && city === 'mendoza' && (
-              <div class="ml-16 space-y-2 animate-slide-down">
+              <div ref={zoneRef} class="ml-16 space-y-2 animate-slide-down">
                 <ZoneRadio
                   label="Estoy en Barrio Dalvian"
                   name="zone"

@@ -1,4 +1,5 @@
 import { h } from 'preact';
+import { useEffect, useRef } from 'preact/hooks';
 import type { WizardState, Goal } from '../types';
 import { GOAL_LABELS, GOAL_ICONS } from '../types';
 
@@ -16,11 +17,30 @@ const ALL_GOALS: Goal[] = [
   'inmunidad',
 ];
 
+function smoothBehavior(): ScrollBehavior {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
+
 export function StepGoals({ state, onChange }: Props) {
   const { goal_primary, goal_secondary } = state;
 
+  const secondaryRef = useRef<HTMLElement>(null);
+  const prevGoal = useRef<Goal | null>(goal_primary);
+
+  // Scroll to secondary section when primary goal is first selected
+  useEffect(() => {
+    const goalJustSelected = goal_primary && !prevGoal.current;
+    if (goalJustSelected && secondaryRef.current) {
+      const t = setTimeout(
+        () => secondaryRef.current?.scrollIntoView({ behavior: smoothBehavior(), block: 'start' }),
+        200
+      );
+      return () => clearTimeout(t);
+    }
+    prevGoal.current = goal_primary;
+  }, [goal_primary]);
+
   const selectPrimary = (g: Goal) => {
-    // Si estaba en secundario, lo sacamos
     onChange({
       goal_primary: g,
       goal_secondary: goal_secondary.filter((s) => s !== g),
@@ -28,7 +48,7 @@ export function StepGoals({ state, onChange }: Props) {
   };
 
   const toggleSecondary = (g: Goal) => {
-    if (g === goal_primary) return; // no puede ser primario y secundario
+    if (g === goal_primary) return;
     if (g === 'none' as unknown as Goal) {
       onChange({ goal_secondary: [] });
       return;
@@ -67,7 +87,7 @@ export function StepGoals({ state, onChange }: Props) {
 
       {/* Objetivo secundario */}
       {goal_primary && (
-        <section class="border-t border-primary/10 pt-8">
+        <section ref={secondaryRef} class="border-t border-primary/10 pt-8">
           <div class="mb-1">
             <span class="text-primary text-xs font-bold uppercase tracking-widest">
               Opcional
@@ -115,7 +135,6 @@ interface GoalCardProps {
 function GoalCard({ goal, selected, onClick }: GoalCardProps) {
   const label = GOAL_LABELS[goal];
   const icon = GOAL_ICONS[goal];
-  // Acortar labels para el grid
   const shortLabel =
     goal === 'energia'
       ? 'Energía'
@@ -154,7 +173,7 @@ interface SecondaryPillProps {
 }
 
 function SecondaryPill({ goal, selected, onClick }: SecondaryPillProps) {
-  const label = GOAL_LABELS[goal].split(' / ')[0]; // Take first part
+  const label = GOAL_LABELS[goal].split(' / ')[0];
   return (
     <button
       type="button"
