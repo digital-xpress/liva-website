@@ -33,7 +33,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/public-website:qa
+          tags: ghcr.io/${{ github.repository_owner }}/liva-website:qa
 
       - name: Build and push Docker image for Production
         if: github.ref == 'refs/heads/main'
@@ -41,7 +41,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/public-website:latest
+          tags: ghcr.io/${{ github.repository_owner }}/liva-website:latest
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -86,7 +86,7 @@ jobs:
 
           TS=$(date +%s)
           NONCE=$(uuidgen | tr '[:upper:]' '[:lower:]')
-          IMAGE="ghcr.io/${{ github.repository_owner }}/public-website"
+          IMAGE="ghcr.io/${{ github.repository_owner }}/liva-website"
           BODY=$(jq -cn --arg service "liva-website" --arg tag "latest" --arg image "$IMAGE" --arg ts "$TS" --arg nonce "$NONCE" \
             '{service:$service, tag:$tag, image:$image, ts:($ts|tonumber), nonce:$nonce}')
 
