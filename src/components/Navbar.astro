@@ -13,7 +13,7 @@ const navLinks: NavLink[] = [
   { href: '#seguridad', label: 'Seguridad' },
 ];
 
-const CALENDLY_URL = 'https://calendly.com/liva-wellness';
+const CALENDLY_URL = 'https://calendly.com/aledovidioatan-oywu/30min';
 ---
 
 <header
@@ -49,6 +49,15 @@ const CALENDLY_URL = 'https://calendly.com/liva-wellness';
       <!-- Right actions -->
       <div class="flex items-center gap-3">
         <DarkModeToggle />
+
+        <!-- Wizard button (desktop) -->
+        <button
+          id="nav-wizard-btn"
+          class="hidden md:inline-flex items-center gap-2 border border-primary text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 hover:scale-105 active:scale-95"
+        >
+          <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 0, 'wght' 400;">auto_awesome</span>
+          Elegí tu programa
+        </button>
 
         <!-- Reservar button (desktop) -->
         <button
@@ -89,9 +98,16 @@ const CALENDLY_URL = 'https://calendly.com/liva-wellness';
         </a>
       ))}
       <button
+        id="mobile-wizard-btn"
+        class="mt-1 flex items-center justify-center gap-2 border border-primary text-primary hover:bg-primary hover:text-white px-5 py-3 rounded-lg text-sm font-bold transition-all duration-200"
+      >
+        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 0, 'wght' 400;">auto_awesome</span>
+        Elegí tu programa
+      </button>
+      <button
         id="mobile-reservar-btn"
         data-calendly={CALENDLY_URL}
-        class="mt-2 flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-5 py-3 rounded-lg text-sm font-bold transition-all duration-200"
+        class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-5 py-3 rounded-lg text-sm font-bold transition-all duration-200"
       >
         <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 0, 'wght' 400;">calendar_month</span>
         Reservar turno
@@ -167,6 +183,11 @@ const CALENDLY_URL = 'https://calendly.com/liva-wellness';
         });
       });
     }
+
+    // Wizard buttons
+    const openWizard = () => window.dispatchEvent(new CustomEvent('wizard:open'));
+    document.getElementById('nav-wizard-btn')?.addEventListener('click', openWizard);
+    document.getElementById('mobile-wizard-btn')?.addEventListener('click', openWizard);
 
     // Calendly buttons
     const calendlyUrl = (document.getElementById('nav-reservar-btn') as HTMLButtonElement | null)?.dataset.calendly ?? '';

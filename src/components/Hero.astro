@@ -1,7 +1,7 @@
 ---
-const CALENDLY_URL = 'https://calendly.com/liva-wellness';
+const CALENDLY_URL = 'https://calendly.com/aledovidioatan-oywu/30min';
 
-const heroImage = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDEPInxbjDnp1aYNK27PtlgNRC296rsILGD7JWWGa2ASqDa_BTQRIhl6j0Z3yMMrq6CAGbc1NSjLQOFHs9sOE0u6utLwFd-Zf-cn7Bh4q7P6FQWx2kubuSFkC6dU02KZHMAdqT9MrCCM5cSHPYXkKdyGc5x1KzPZC5eLgrZ1ZRg4PA9WYi5Bd9s-BSvvYCIqqgpf8BkWlfBHT8qCAyTVP3UkPTgc7ROjq_ZMH5B7jSsZTF9dwTDnhJ5E67_f-S8tJfDPfH0w2mtc3pw';
+const heroImage = '/hero.png';
 ---
 
 <section class="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-32">
@@ -46,7 +46,6 @@ const heroImage = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDEPInxbjD
         <div class="animate-on-scroll flex flex-wrap gap-4" style="transition-delay: 300ms;">
           <button
             id="hero-cta-primary"
-            data-calendly={CALENDLY_URL}
             class="group bg-primary hover:bg-primary-hover text-white px-7 py-4 rounded-xl font-bold text-base lg:text-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2"
           >
             Descubrí tu tratamiento
@@ -152,8 +151,11 @@ const heroImage = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDEPInxbjD
     const primary = document.getElementById('hero-cta-primary') as HTMLButtonElement | null;
     const secondary = document.getElementById('hero-cta-secondary') as HTMLButtonElement | null;
 
-    const url = primary?.dataset.calendly ?? '';
-    primary?.addEventListener('click', () => openCalendly(url));
+    primary?.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('wizard:open'));
+    });
+
+    const url = secondary?.dataset.calendly ?? '';
     secondary?.addEventListener('click', () => openCalendly(url));
 
     // Subtle parallax on scroll

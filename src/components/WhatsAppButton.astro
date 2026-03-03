@@ -48,6 +48,13 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${MESSAGE}`;
     100% { transform: scale(2); opacity: 0; }
   }
 
+  /* Raise above mobile sticky bar (~68px) */
+  @media (max-width: 767px) {
+    #whatsapp-fab {
+      bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     #whatsapp-fab span {
       animation: none !important;

@@ -135,6 +135,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           transition: none !important;
         }
       }
+      /* Offset for mobile sticky bar */
+      @media (max-width: 767px) {
+        body {
+          padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+        }
+      }
     </style>
   </head>
 

@@ -1,0 +1,129 @@
+---
+const CALENDLY_URL = 'https://calendly.com/aledovidioatan-oywu/30min';
+---
+
+<div
+  id="mobile-sticky-bar"
+  class="fixed bottom-0 left-0 right-0 z-[55] md:hidden border-t border-primary/10"
+  style="
+    background: rgba(247, 247, 247, 0.92);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  "
+>
+  <div class="flex gap-3 px-4 py-3">
+    <!-- Wizard CTA (primario) — border beam wrapper -->
+    <div class="wizard-beam-wrap flex-1">
+      <button
+        id="sticky-wizard-btn"
+        aria-label="Elegí tu programa de tratamiento"
+        class="w-full flex items-center justify-center gap-2 bg-primary text-white py-3.5 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 active:scale-95 transition-all duration-200 hover:bg-primary/90"
+      >
+        <span
+          class="material-symbols-outlined text-base shrink-0"
+          style="font-variation-settings: 'FILL' 0, 'wght' 400;"
+        >auto_awesome</span>
+        Elegí tu programa
+      </button>
+    </div>
+
+    <!-- Calendly CTA (secundario) -->
+    <button
+      id="sticky-calendly-btn"
+      data-calendly={CALENDLY_URL}
+      aria-label="Reservar turno"
+      class="flex-1 flex items-center justify-center gap-2 border border-primary text-primary bg-white dark:bg-surface-dark py-3.5 rounded-xl font-bold text-sm active:scale-95 transition-all duration-200 hover:bg-primary/5"
+    >
+      <span
+        class="material-symbols-outlined text-base shrink-0"
+        style="font-variation-settings: 'FILL' 0, 'wght' 400;"
+      >calendar_month</span>
+      Reservar
+    </button>
+  </div>
+</div>
+
+<style>
+  :global(.dark) #mobile-sticky-bar {
+    background: rgba(25, 26, 24, 0.92) !important;
+    border-color: rgba(95, 108, 90, 0.15) !important;
+  }
+
+  /* Border beam wrapper */
+  .wizard-beam-wrap {
+    position: relative;
+    border-radius: 0.75rem;
+    padding: 2px;
+    overflow: hidden;
+  }
+
+  /* Rotating conic-gradient that creates the beam */
+  .wizard-beam-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -100%;
+    width: 300%;
+    height: 300%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0%,
+      transparent 60%,
+      rgba(255, 255, 255, 0.95) 72%,
+      rgba(255, 255, 255, 0.4)  80%,
+      transparent 90%
+    );
+    animation: beam-rotate 2.2s linear infinite;
+  }
+
+  /* Button sits above the beam */
+  .wizard-beam-wrap button {
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes beam-rotate {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wizard-beam-wrap::before {
+      animation: none;
+      background: none;
+    }
+    .wizard-beam-wrap {
+      padding: 0;
+    }
+    #mobile-sticky-bar button {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  declare const Calendly: {
+    initPopupWidget: (options: { url: string }) => void;
+  };
+
+  function initStickyBar() {
+    const wizardBtn = document.getElementById('sticky-wizard-btn');
+    const calendlyBtn = document.getElementById('sticky-calendly-btn') as HTMLButtonElement | null;
+
+    wizardBtn?.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('wizard:open'));
+    });
+
+    calendlyBtn?.addEventListener('click', () => {
+      const url = calendlyBtn.dataset.calendly ?? '';
+      window.dispatchEvent(new CustomEvent('calendly:open'));
+      if (typeof Calendly !== 'undefined') {
+        Calendly.initPopupWidget({ url });
+      } else {
+        window.open(url, '_blank');
+      }
+    });
+  }
+
+  initStickyBar();
+  document.addEventListener('astro:after-swap', initStickyBar);
+</script>
